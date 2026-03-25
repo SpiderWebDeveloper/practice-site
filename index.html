@@ -162,3 +162,93 @@
     </div>
 
   </div>
+
+  <script>
+    // 1. おみくじ機能 & 演出
+    function omikuji() {
+      // 以前の運勢リストを拡張
+      const results = ["ULTRA 大吉🌟", "大吉", "吉", "小吉", "凶💀", "スーパー凶💀💀"];
+      const random = Math.floor(Math.random() * results.length);
+      const result = results[random];
+
+      // 結果を表示
+      document.getElementById("omikuji-result").innerText = result;
+
+      // 結果に合わせた背景演出（CSSクラスを切り替える）
+      document.body.className = ''; // クラスをリセット
+      if(result.includes("大吉")) {
+        document.body.classList.add("result-great");
+        createConfetti(); // 紙吹雪を飛ばす
+      } else if(result.includes("吉")) {
+        document.body.classList.add("result-good");
+      } else if(result.includes("凶")) {
+        document.body.classList.add("result-bad");
+      }
+    }
+
+    // 紙吹雪を作成する魔法
+    function createConfetti() {
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`; // ランダムな色
+        confetti.style.animationDelay = Math.random() * 2 + "s";
+        confetti.style.animationDuration = Math.random() * 1 + 1 + "s";
+        document.body.appendChild(confetti);
+
+        // 2秒後に消す
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
+
+    // 2. ミニゲーム（クリック連打）機能
+    let score = 0;
+    let timerId = null;
+    let isGameRunning = false;
+
+    function startGame() {
+      if(isGameRunning) return; // すでにゲーム中なら何もしない
+      isGameRunning = true;
+      score = 0;
+      document.getElementById("score").innerText = score;
+      document.getElementById("click-btn").innerText = "連打せよ！";
+      document.getElementById("click-btn").setAttribute("onclick", "incrementScore()"); // クリックの役割を変える
+
+      let timeLeft = 3.0;
+      document.getElementById("timer").innerText = timeLeft.toFixed(1) + "秒";
+
+      timerId = setInterval(() => {
+        timeLeft -= 0.1;
+        document.getElementById("timer").innerText = timeLeft.toFixed(1) + "秒";
+
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 100); // 0.1秒ごとにカウントダウン
+    }
+
+    function incrementScore() {
+      if(!isGameRunning) return;
+      score++;
+      document.getElementById("score").innerText = score;
+    }
+
+    function endGame() {
+      clearInterval(timerId);
+      isGameRunning = false;
+      document.getElementById("timer").innerText = "タイムアップ！";
+      document.getElementById("click-btn").innerText = "ゲーム開始！";
+      document.getElementById("click-btn").setAttribute("onclick", "startGame()"); // クリックの役割を戻す
+
+      // ちょっとした演出
+      if(score >= 10) {
+        alert("すごい連打だ！👏 スコア: " + score);
+      } else {
+        alert("もっと連打できるはず！✊ スコア: " + score);
+      }
+    }
+  </script>
+
+</body>
+</html>
