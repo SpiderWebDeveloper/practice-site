@@ -3,252 +3,229 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ULTRA DOHADE SITE</title>
-  
+  <title>新卒採用風 | ポートフォリオ</title>
   <style>
-    /* 1. 全体のデザイン & 動く背景 */
+    /* 全体の設定 */
+    :root {
+      --main-color: #00a0a0; /* 誠実なティールブルー */
+      --accent-color: #ff9900; /* 活気あるオレンジ */
+      --text-color: #333;
+      --bg-light: #fdfdfd;
+    }
+
     body {
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradient_bg 15s ease infinite;
-      height: 100vh;
+      margin: 0;
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      color: var(--text-color);
+      line-height: 1.8;
+      background-color: var(--bg-light);
+    }
+
+    /* 1. メインビジュアル（ヒーロー） */
+    .hero {
+      height: 80vh;
+      background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://via.placeholder.com/1200x800') center/cover no-repeat;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin: 0;
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      overflow: hidden; /* 画面からはみ出す演出用 */
-      color: white;
-    }
-
-    @keyframes gradient_bg {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* 2. パーティクル（粒子）背景（JavaScriptで動かす用） */
-    #particles-js {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 1; /* コンテンツの後ろに */
-    }
-
-    /* 3. コンテンツ全体を中央に */
-    .content {
-      position: relative;
-      z-index: 10; /* パーティクルの前に */
       text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 30px; /* 要素間の隙間 */
-    }
-
-    /* 4. タイトル：虹色に揺れる */
-    h1 {
-      font-size: 6vw;
-      text-transform: uppercase;
-      letter-spacing: 5px;
-      margin: 0;
-      background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: rainbow 5s ease infinite, float 3s ease-in-out infinite;
-    }
-
-    @keyframes rainbow {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
-    /* 5. ド派手ボタン */
-    .super-button {
-      background-color: rgba(255, 255, 255, 0.9);
-      color: #333;
-      padding: 15px 30px;
-      font-size: 20px;
-      font-weight: bold;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-      text-transform: uppercase;
-    }
-
-    .super-button:hover {
-      transform: scale(1.05) translateY(-3px);
-      box-shadow: 0 15px 30px rgba(255, 255, 255, 0.4);
-    }
-
-    /* 6. おみくじ結果表示 & 演出 */
-    #omikuji-result {
-      font-size: 60px;
-      font-weight: bold;
-      margin-top: 20px;
-      text-shadow: 0 0 15px rgba(255,255,255,0.7);
-      animation: result_show 1s ease-out; /* 結果が出るときのアニメ */
-    }
-
-    @keyframes result_show {
-      0% { opacity: 0; transform: scale(0.5) rotate(-30deg); }
-      100% { opacity: 1; transform: scale(1) rotate(0deg); }
-    }
-
-    /* 結果ごとの背景演出（JavaScriptでクラスを付ける） */
-    body.result-great { background: radial-gradient(circle, #ffeb3b, #ff7043) !important; animation: none; } /* 大吉は黄金 */
-    body.result-good { background: radial-gradient(circle, #81c784, #388e3c) !important; animation: none; } /* 吉は緑 */
-    body.result-bad { background: radial-gradient(circle, #757575, #212121) !important; animation: none; } /* 凶は灰色 */
-
-    /* コンフェッティ（紙吹雪）（JavaScriptで作成用） */
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: gold;
-      border-radius: 50%;
-      animation: confetti_fall 2s ease-out;
-      opacity: 0;
-      z-index: 5;
-    }
-
-    @keyframes confetti_fall {
-      0% { opacity: 1; transform: translateY(-50px) rotate(0deg); }
-      100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
-    }
-
-    /* 7. ゲームエリア */
-    #game-area {
-      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
 
-    #timer { font-size: 24px; color: #ffeb3b; }
-    #score { font-size: 40px; font-weight: bold; }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    }
 
+    .hero .slogan {
+      background: var(--accent-color);
+      padding: 5px 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    /* 2. セクション共通 */
+    section {
+      padding: 80px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 50px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--accent-color);
+    }
+
+    /* 3. メッセージセクション */
+    .message-box {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .message-box h3 {
+      color: var(--main-color);
+      font-size: 1.5rem;
+    }
+
+    /* 4. カードレイアウト（社員紹介風） */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s;
+    }
+
+    .card:hover { transform: translateY(-5px); }
+
+    .card img { width: 100%; height: 200px; object-fit: cover; background: #eee; }
+
+    .card-content { padding: 20px; }
+
+    .card-content h4 { margin: 0 0 10px; color: var(--main-color); }
+
+    /* 5. 会社概要風テーブル */
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+
+    .info-table th, .info-table td {
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .info-table th {
+      width: 25%;
+      background-color: #f9f9f9;
+      color: var(--main-color);
+      text-align: left;
+    }
+
+    /* 6. エントリーボタン */
+    .btn-area {
+      text-align: center;
+      padding: 60px 0;
+      background: #eee;
+    }
+
+    .cta-button {
+      background: var(--accent-color);
+      color: #fff;
+      padding: 20px 60px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 50px;
+      box-shadow: 0 5px 15px rgba(255,153,0,0.4);
+      transition: 0.3s;
+    }
+
+    .cta-button:hover { opacity: 0.8; }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #333;
+      color: #fff;
+      font-size: 0.8rem;
+    }
   </style>
 </head>
-<body class="">
+<body>
 
-  <div id="particles-js"></div>
+  <header class="hero">
+    <span class="slogan">「当たり前」を、「感動」に変える。</span>
+    <h1>2027 NEW GRADUATES</h1>
+    <p>あなたの挑戦が、未来のスタンダードになる。</p>
+  </header>
 
-  <div class="content">
-    
-    <h1>ULTRA<br>DOHADE SITE</h1>
-
-    <div id="game-area">
-      <p>3秒クリック連打ゲーム！</p>
-      <div id="timer">準備完了</div>
-      <button id="click-btn" class="super-button" onclick="startGame()">ゲーム開始！</button>
-      <p>スコア: <span id="score">0</span></p>
-    }
+  <section id="message">
+    <h2>MESSAGE</h2>
+    <div class="message-box">
+      <h3>情熱を持って、誠実に歩む。</h3>
+      <p>私は学生時代、〇〇での活動を通じて「人の想いを形にする」喜びを知りました。<br>
+      このサイトでは、私のこれまでの経験と、これから目指したい姿を公開しています。<br>
+      一歩ずつ着実に、しかし大胆に。社会に貢献できるエンジニアを目指します。</p>
     </div>
+  </section>
 
-    <div id="omikuji-area">
-      <button class="super-button" onclick="omikuji()">今日の運勢！</button>
-      <div id="omikuji-result"></div>
-    }
+  <section id="projects" style="background-color: #fff;">
+    <h2>STRENGTHS</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="https://via.placeholder.com/400x300?text=Persistence" alt="強み1">
+        <div class="card-content">
+          <h4>粘り強い課題解決力</h4>
+          <p>エラーに直面しても、多角的な視点から調査を行い、解決までやり遂げる力があります。</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/400x300?text=Collaboration" alt="強み2">
+        <div class="card-content">
+          <h4>周囲を巻き込む協力体制</h4>
+          <p>チーム開発において、円滑なコミュニケーションを心がけ、全体の生産性を高める役割を担います。</p>
+        </div>
+      </div>
     </div>
+  </section>
 
+  <section id="info">
+    <h2>PROFILE</h2>
+    <table class="info-table">
+      <tr>
+        <th>氏名</th>
+        <td>山田 太郎 / Taro Yamada</td>
+      </tr>
+      <tr>
+        <th>所属</th>
+        <td>〇〇大学 〇〇学部 〇〇学科（2027年3月卒業見込み）</td>
+      </tr>
+      <tr>
+        <th>保有資格</th>
+        <td>ITパスポート、基本情報技術者試験、TOEIC 750点</td>
+      </tr>
+      <tr>
+        <th>趣味</th>
+        <td>個人開発、カフェ巡り、写真撮影</td>
+      </tr>
+    </table>
+  </section>
+
+  <div class="btn-area">
+    <a href="mailto:example@gmail.com" class="cta-button">CONTACT ME</a>
+    <p style="margin-top:20px; color:#666;">お問い合わせはこちらからお気軽にどうぞ</p>
   </div>
 
-  <script>
-    // 1. おみくじ機能 & 演出
-    function omikuji() {
-      // 以前の運勢リストを拡張
-      const results = ["ULTRA 大吉🌟", "大吉", "吉", "小吉", "凶💀", "スーパー凶💀💀"];
-      const random = Math.floor(Math.random() * results.length);
-      const result = results[random];
-
-      // 結果を表示
-      document.getElementById("omikuji-result").innerText = result;
-
-      // 結果に合わせた背景演出（CSSクラスを切り替える）
-      document.body.className = ''; // クラスをリセット
-      if(result.includes("大吉")) {
-        document.body.classList.add("result-great");
-        createConfetti(); // 紙吹雪を飛ばす
-      } else if(result.includes("吉")) {
-        document.body.classList.add("result-good");
-      } else if(result.includes("凶")) {
-        document.body.classList.add("result-bad");
-      }
-    }
-
-    // 紙吹雪を作成する魔法
-    function createConfetti() {
-      for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement("div");
-        confetti.className = "confetti";
-        confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`; // ランダムな色
-        confetti.style.animationDelay = Math.random() * 2 + "s";
-        confetti.style.animationDuration = Math.random() * 1 + 1 + "s";
-        document.body.appendChild(confetti);
-
-        // 2秒後に消す
-        setTimeout(() => confetti.remove(), 3000);
-      }
-    }
-
-    // 2. ミニゲーム（クリック連打）機能
-    let score = 0;
-    let timerId = null;
-    let isGameRunning = false;
-
-    function startGame() {
-      if(isGameRunning) return; // すでにゲーム中なら何もしない
-      isGameRunning = true;
-      score = 0;
-      document.getElementById("score").innerText = score;
-      document.getElementById("click-btn").innerText = "連打せよ！";
-      document.getElementById("click-btn").setAttribute("onclick", "incrementScore()"); // クリックの役割を変える
-
-      let timeLeft = 3.0;
-      document.getElementById("timer").innerText = timeLeft.toFixed(1) + "秒";
-
-      timerId = setInterval(() => {
-        timeLeft -= 0.1;
-        document.getElementById("timer").innerText = timeLeft.toFixed(1) + "秒";
-
-        if (timeLeft <= 0) {
-          endGame();
-        }
-      }, 100); // 0.1秒ごとにカウントダウン
-    }
-
-    function incrementScore() {
-      if(!isGameRunning) return;
-      score++;
-      document.getElementById("score").innerText = score;
-    }
-
-    function endGame() {
-      clearInterval(timerId);
-      isGameRunning = false;
-      document.getElementById("timer").innerText = "タイムアップ！";
-      document.getElementById("click-btn").innerText = "ゲーム開始！";
-      document.getElementById("click-btn").setAttribute("onclick", "startGame()"); // クリックの役割を戻す
-
-      // ちょっとした演出
-      if(score >= 10) {
-        alert("すごい連打だ！👏 スコア: " + score);
-      } else {
-        alert("もっと連打できるはず！✊ スコア: " + score);
-      }
-    }
-  </script>
+  <footer>
+    &copy; 2026 Taro Yamada Portfolio Project.
+  </footer>
 
 </body>
 </html>
