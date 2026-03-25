@@ -1,29 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>はじめてのサイト</title>
+  <title>ド派手な練習サイト</title>
   <style>
-    /* ここからCSS（デザインの指示） */
+    /* 背景をカッコいいグラデーションに */
     body {
-      background-color: #f0f8ff; /* 薄い水色 */
-      text-align: center;       /* 文字を真ん中に寄せる */
-      font-family: sans-serif;  /* 文字の形をスッキリさせる */
-      padding-top: 100px;       /* 上に少し余白を作る */
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite; /* 背景が動くアニメ */
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      font-family: 'Helvetica', sans-serif;
+      overflow: hidden;
     }
+
+    /* 背景が動く命令 */
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* タイトル：虹色に光って揺れる */
     h1 {
-      color: #333333;           /* 見出しの色 */
-      font-size: 48px;          /* 文字を大きくする */
+      color: white;
+      font-size: 80px;
+      text-shadow: 0 0 20px rgba(255,255,255,0.8);
+      animation: float 3s ease-in-out infinite; /* 浮遊アニメ */
+      cursor: default;
     }
-    p {
-      color: #666666;           /* 本文の色 */
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* ボタン：ド派手な演出 */
+    .super-button {
+      background-color: white;
+      color: #e73c7e;
+      padding: 20px 40px;
+      font-size: 24px;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: 0.3s; /* 変化をなめらかに */
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      text-decoration: none;
+    }
+
+    /* マウスを置いた時の動き（ホバー） */
+    .super-button:hover {
+      transform: scale(1.5) rotate(5deg); /* 巨大化して傾く */
+      background-color: #ffeb3b;
+      color: #333;
+      box-shadow: 0 20px 40px rgba(255, 235, 59, 0.5);
     }
   </style>
 </head>
 <body>
 
-  <h1>はじめてのサイト</h1>
-  <p>GitHub練習中です。CSSでデザインを変えてみました！</p>
+  <h1>DOHADE!!!</h1>
+  <p style="color: white; font-size: 20px;">マウスを下のボタンに乗せてみて！</p>
+  
+  <a href="#" class="super-button">ここを触れ！</a>
 
 </body>
 </html>
