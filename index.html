@@ -3,14 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>新卒採用風 | ポートフォリオ</title>
+  <title>Your Name | Recruitment 2027</title>
+  
   <style>
-    /* 全体の設定 */
+    /* 1. 基本設定（CSS Variablesとアニメーションの定義） */
     :root {
-      --main-color: #00a0a0; /* 誠実なティールブルー */
+      --main-color: #003366; /* 誠実な紺色 */
       --accent-color: #ff9900; /* 活気あるオレンジ */
       --text-color: #333;
-      --bg-light: #fdfdfd;
+      --bg-white: #ffffff;
+      --bg-light: #f8f9fa;
+      --transition-speed: 0.5s;
+    }
+
+    /* ふわっと表示させるアニメーション */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 虹色に揺れるアニメーション（タイトル用） */
+    @keyframes rainbowText {
+      0% { color: #f00; text-shadow: 0 0 5px rgba(255,0,0,0.5); }
+      20% { color: #f90; }
+      40% { color: #ff0; }
+      60% { color: #0f0; }
+      80% { color: #00f; }
+      100% { color: #f0f; }
+    }
+
+    /* 下向き矢印が動くアニメーション */
+    @keyframes arrowBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
     }
 
     body {
@@ -19,12 +49,71 @@
       color: var(--text-color);
       line-height: 1.8;
       background-color: var(--bg-light);
+      scroll-behavior: smooth; /* スムーズスクロール */
+      overflow-x: hidden; /* 横はみ出し防止 */
     }
 
-    /* 1. メインビジュアル（ヒーロー） */
+    /* 2. 追従ナビゲーションバー（新規） */
+    nav {
+      position: sticky; /* 画面上部に追従 */
+      top: 0;
+      z-index: 1000;
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px); /* すりガラス効果 */
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--main-color);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #555;
+      font-weight: bold;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+      position: relative; /* 下線用 */
+    }
+
+    /* ナビ下線アニメーション */
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--accent-color);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--main-color); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* 3. ヒーローセクション（動き追加） */
     .hero {
-      height: 80vh;
-      background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://via.placeholder.com/1200x800') center/cover no-repeat;
+      height: 90vh;
+      background: linear-gradient(-45deg, #001f4d, #003366, #005580);
+      background-size: 400% 400%;
+      animation: gradient_bg 15s ease infinite; /* 動く背景 */
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -32,33 +121,60 @@
       text-align: center;
       color: #fff;
       padding: 20px;
+      position: relative;
+    }
+
+    @keyframes gradient_bg {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .hero h1 {
-      font-size: 3.5rem;
+      font-size: 4vw;
       font-weight: bold;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+      margin: 0 0 20px;
+      animation: fadeInUp 1s var(--transition-speed) ease both, rainbowText 10s linear infinite; /* ふわっと表示 & 虹色 */
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      animation: fadeInUp 1s 0.8s ease both; /* 遅延付き */
     }
 
     .hero .slogan {
       background: var(--accent-color);
       padding: 5px 20px;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: bold;
+      margin-bottom: 30px;
+      animation: fadeInDown 0.8s 0.2s ease both;
     }
 
-    /* 2. セクション共通 */
+    /* 下向き矢印アイコン */
+    .hero .scroll-arrow {
+      position: absolute;
+      bottom: 40px;
+      font-size: 2rem;
+      color: rgba(255,255,255,0.7);
+      animation: arrowBounce 2s infinite, fadeInUp 1s 1.2s ease both;
+      cursor: pointer;
+    }
+
+    /* 4. セクション共通（動きとデザイン） */
     section {
-      padding: 80px 20px;
-      max-width: 1000px;
+      padding: 100px 20px;
+      max-width: 1100px;
       margin: 0 auto;
+      opacity: 0; /* 最初は隠す */
+      animation: fadeInUp 1s ease both; /* 表示アニメ */
     }
 
     h2 {
       text-align: center;
-      font-size: 2rem;
-      margin-bottom: 50px;
+      font-size: 2.2rem;
+      margin-bottom: 70px;
+      color: var(--main-color);
       position: relative;
       padding-bottom: 15px;
     }
@@ -69,51 +185,149 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 60px;
+      width: 0; /* 最初は0 */
       height: 4px;
       background: var(--accent-color);
+      transition: width 0.5s 0.3s ease; /* 時間差で伸びる */
     }
 
-    /* 3. メッセージセクション */
-    .message-box {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto;
-    }
+    /* ホバーで下線が伸びる */
+    h2:hover::after { width: 80px; }
 
-    .message-box h3 {
-      color: var(--main-color);
-      font-size: 1.5rem;
-    }
-
-    /* 4. カードレイアウト（社員紹介風） */
+    /* 5. ストレングス（カードレイアウト・複雑化） */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
     }
 
     .card {
-      background: #fff;
-      border-radius: 10px;
+      background: var(--bg-white);
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* カードの複雑なホバー演出 */
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    }
+
+    .card img { width: 100%; height: 220px; object-fit: cover; background: #eee; }
+
+    .card-content { padding: 30px; flex-grow: 1; }
+
+    .card-content h4 { margin: 0 0 15px; color: var(--main-color); font-size: 1.2rem; }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .skill-tag {
+      background: #e9ecef;
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      color: #555;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .skill-tag:hover { background: var(--main-color); color: white; }
+
+    /* 6. タイムラインセクション（新規・複雑なコンポーネント） */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding-left: 50px;
+    }
+
+    /* タイムラインの中央線 */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 100%;
+      top: 0;
+      left: 20px;
+      background-color: var(--main-color);
+      opacity: 0.3;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 50px;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease both;
+    }
+
+    /* タイムラインの丸 */
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: var(--accent-color);
+      border: 4px solid var(--main-color);
+      border-radius: 50%;
+      top: 0;
+      left: -42px;
+      z-index: 1;
+      transition: background 0.3s;
+    }
+
+    .timeline-item:hover::after { background-color: var(--main-color); }
+
+    .timeline-content {
+      background: var(--bg-white);
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       transition: transform 0.3s;
     }
 
-    .card:hover { transform: translateY(-5px); }
+    .timeline-content:hover { transform: translateX(5px); }
 
-    .card img { width: 100%; height: 200px; object-fit: cover; background: #eee; }
+    .timeline-date {
+      color: var(--accent-color);
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: inline-block;
+    }
 
-    .card-content { padding: 20px; }
+    /* アニメーション遅延の設定 */
+    .timeline-item:nth-child(1) { animation-delay: 0.2s; }
+    .timeline-item:nth-child(2) { animation-delay: 0.4s; }
+    .timeline-item:nth-child(3) { animation-delay: 0.6s; }
 
-    .card-content h4 { margin: 0 0 10px; color: var(--main-color); }
+    /* 7. プロフィール（テーブル・複雑化） */
+    .profile-section {
+      background-color: #f1f3f5;
+    }
 
-    /* 5. 会社概要風テーブル */
     .info-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 30px;
+      background: var(--bg-white);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .info-table tr {
+      transition: background 0.3s;
+    }
+
+    .info-table tr:hover {
+      background-color: #f8f9fa; /* ホバーで色が変わる */
     }
 
     .info-table th, .info-table td {
@@ -123,108 +337,170 @@
 
     .info-table th {
       width: 25%;
-      background-color: #f9f9f9;
       color: var(--main-color);
       text-align: left;
     }
 
-    /* 6. エントリーボタン */
-    .btn-area {
+    /* 8. エントリーボタン（動き追加） */
+    .cta-area {
       text-align: center;
-      padding: 60px 0;
-      background: #eee;
+      padding: 80px 20px;
+      background: linear-gradient(-45deg, #eee, #f8f9fa, #eee);
     }
 
     .cta-button {
       background: var(--accent-color);
       color: #fff;
       padding: 20px 60px;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: bold;
       text-decoration: none;
       border-radius: 50px;
       box-shadow: 0 5px 15px rgba(255,153,0,0.4);
       transition: 0.3s;
+      display: inline-block;
+      position: relative;
+      overflow: hidden; /* キラリ用 */
     }
 
-    .cta-button:hover { opacity: 0.8; }
+    /* キラリと光るエフェクト */
+    .cta-button::after {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: -100px;
+      width: 50px;
+      height: 300px;
+      background: rgba(255,255,255,0.3);
+      transform: rotate(45deg);
+      transition: all 0.6s;
+    }
 
+    .cta-button:hover {
+      opacity: 0.9;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255,153,0,0.5);
+    }
+
+    .cta-button:hover::after {
+      left: 100%;
+      top: 100%;
+    }
+
+    /* フッター */
     footer {
       text-align: center;
       padding: 30px;
-      background: #333;
+      background: var(--main-color);
       color: #fff;
       font-size: 0.8rem;
     }
   </style>
 </head>
-<body>
+<body id="top">
+
+  <nav>
+    <a href="#top" class="logo">TARO PORTFOLIO</a>
+    <ul class="nav-links">
+      <li><a href="#message">MESSAGE</a></li>
+      <li><a href="#strengths">STRENGTHS</a></li>
+      <li><a href="#timeline">CAREER</a></li>
+      <li><a href="#profile">PROFILE</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
+  </nav>
 
   <header class="hero">
-    <span class="slogan">「当たり前」を、「感動」に変える。</span>
+    <span class="slogan">「『個』の力が、『組織』の熱になる。」</span>
     <h1>2027 NEW GRADUATES</h1>
-    <p>あなたの挑戦が、未来のスタンダードになる。</p>
+    <p>未来を、僕らの遊び場にする。</p>
+    <div class="scroll-arrow" onclick="location.href='#message'">⬇</div>
   </header>
 
-  <section id="message">
-    <h2>MESSAGE</h2>
-    <div class="message-box">
-      <h3>情熱を持って、誠実に歩む。</h3>
-      <p>私は学生時代、〇〇での活動を通じて「人の想いを形にする」喜びを知りました。<br>
-      このサイトでは、私のこれまでの経験と、これから目指したい姿を公開しています。<br>
-      一歩ずつ着実に、しかし大胆に。社会に貢献できるエンジニアを目指します。</p>
-    </div>
-  </section>
+  <div class="container">
+    
+    <section id="message">
+      <h2>MESSAGE</h2>
+      <div style="text-align:center; max-width:700px; margin: 0 auto;">
+        <h3 style="color:var(--main-color); font-size:1.6rem; margin-bottom:20px;">情熱を持って、誠実に歩む。</h3>
+        <p style="font-size:1.1rem; color:#555;">私は学生時代、〇〇での活動を通じて「人の想いを形にする」喜びを知りました。<br>
+        このサイトでは、でたらめな情報と、私のこれまでの経験と、これから目指したいでたらめな姿を公開しています。<br>
+        一歩ずつ着実に、しかし大胆に。社会に貢献できるでたらめなエンジニアを目指します。</p>
+      </div>
+    </section>
 
-  <section id="projects" style="background-color: #fff;">
-    <h2>STRENGTHS</h2>
-    <div class="grid">
-      <div class="card">
-        <img src="https://via.placeholder.com/400x300?text=Persistence" alt="強み1">
-        <div class="card-content">
-          <h4>粘り強い課題解決力</h4>
-          <p>エラーに直面しても、多角的な視点から調査を行い、解決までやり遂げる力があります。</p>
+    <section id="strengths" style="background-color: #fff;">
+      <h2>STRENGTHS</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="https://via.placeholder.com/400x300?text=Persistence" alt="強み1">
+          <div class="card-content">
+            <h4>粘り強い課題解決力</h4>
+            <p>でたらめなエラーに直面しても、多角的な視点から調査を行い、でたらめな解決までやり遂げる力があります。</p>
+            <div class="skill-list">
+              <span class="skill-tag">Debugging</span> <span class="skill-tag">Problem Solving</span> <span class="skill-tag">Git</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/400x300?text=Collaboration" alt="強み2">
+          <div class="card-content">
+            <h4>周囲を巻き込む協力体制</h4>
+            <p>でたらめなチーム開発において、円滑なコミュニケーションを心がけ、でたらめな生産性を高める役割を担います。</p>
+            <div class="skill-list">
+              <span class="skill-tag">Teamwork</span> <span class="skill-tag">Communication</span> <span class="skill-tag">Slack</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="card">
-        <img src="https://via.placeholder.com/400x300?text=Collaboration" alt="強み2">
-        <div class="card-content">
-          <h4>周囲を巻き込む協力体制</h4>
-          <p>チーム開発において、円滑なコミュニケーションを心がけ、全体の生産性を高める役割を担います。</p>
+    </section>
+
+    <section id="timeline">
+      <h2>CAREER (でたらめ)</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <span class="timeline-date">2024.10 - 現在</span>
+            <h4>でたらめ大学 〇〇研究室 所属</h4>
+            <p>「でたらめなAIを活用した、でたらめなUXデザイン」の研究に着手。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <span class="timeline-date">2023.08 - 2023.12</span>
+            <h4>でたらめ株式会社 インターン</h4>
+            <p>でたらめなWebサービスの開発に携わり、でたらめな技術を習得。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <span class="timeline-date">2022.04</span>
+            <h4>でたらめ大学 入学</h4>
+            <p>でたらめな学部・学科に入学。でたらめな知識の基礎を学ぶ。</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="info">
-    <h2>PROFILE</h2>
-    <table class="info-table">
-      <tr>
-        <th>氏名</th>
-        <td>山田 太郎 / Taro Yamada</td>
-      </tr>
-      <tr>
-        <th>所属</th>
-        <td>〇〇大学 〇〇学部 〇〇学科（2027年3月卒業見込み）</td>
-      </tr>
-      <tr>
-        <th>保有資格</th>
-        <td>ITパスポート、基本情報技術者試験、TOEIC 750点</td>
-      </tr>
-      <tr>
-        <th>趣味</th>
-        <td>個人開発、カフェ巡り、写真撮影</td>
-      </tr>
-    </table>
-  </section>
+    <section id="profile" class="profile-section">
+      <h2>PROFILE</h2>
+      <table class="info-table">
+        <tr><th>氏名</th><td>山田 太郎 / Taro Yamada</td></tr>
+        <tr><th>所属</th><td>でたらめ大学 でたらめ学部 (2027年3月卒業見込み)</td></tr>
+        <tr><th>保有資格</th><td>でたらめパスポート、基本情報技術者試験、TOEIC 750点</td></tr>
+        <tr><th>趣味</th><td>でたらめな個人開発、カフェ巡り、写真撮影</td></tr>
+      </table>
+    </section>
 
-  <div class="btn-area">
+  </div>
+
+  <div id="contact" class="cta-area">
     <a href="mailto:example@gmail.com" class="cta-button">CONTACT ME</a>
-    <p style="margin-top:20px; color:#666;">お問い合わせはこちらからお気軽にどうぞ</p>
+    <p style="margin-top:20px; color:#666;">お問い合わせはこちらからお気軽にどうぞ(でたらめです)</p>
   </div>
 
   <footer>
-    &copy; 2026 Taro Yamada Portfolio Project.
+    &copy; 2026 Taro Yamada Portfolio Project. (内容のでたらめさは保証します)
   </footer>
 
 </body>
